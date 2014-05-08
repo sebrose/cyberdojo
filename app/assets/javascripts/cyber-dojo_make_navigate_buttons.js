@@ -4,21 +4,20 @@ var cyberDojo = (function(cd, $) {
   "use strict";
 
   cd.makeNavigateButtons = function(avatarName) {
-	  
-	var makeNavigateButton = function(name) {	
+
+	var makeNavigateButton = function(name) {
 	  return '' +
 		'<button class="triangle button"' +
 			 'id="' + name + '_button">' +
 		  '<img src="/images/triangle_' + name + '.gif"' +
-			   'alt="move to ' + name + ' diff"' +                 
-			   'width="25"' + 
-			   'height="25" />' +
-		'</button>';      
-	};	
+			  ' alt="move to ' + name + ' diff"' +
+			  ' width="20"' +
+			  ' height="20" />' +
+		'</button>';
+	};
 
 	return '' +
-	  '<div class="panel">' +
-		'<table class="align-center">' +
+		'<table id="diff-navigate-buttons">' +
 		  '<tr>' +
 			'<td>' +
 			   makeNavigateButton('first') +
@@ -38,10 +37,8 @@ var cyberDojo = (function(cd, $) {
 			   makeNavigateButton('last') +
 			'</td>' +
 		  '</tr>' +
-		'</table>' +
-	  '</div>';
-  };			
+		'</table>';
+  };
 
   return cd;
 })(cyberDojo || {}, $);
-
