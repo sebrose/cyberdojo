@@ -1,11 +1,342 @@
 
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+FakeDisk is better renamed as OsDiskFake
+FakeDir  is better renamed as OsDirFake
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Would be good if the dashboard graphed the execution time.
+Server could record time before starting cyber-dojo.sh execution
+and time it finished and hence duration.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Re-enter dialog needs to change its bottom text if no animals
+have yet started
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Would be handy if the dashboard showed the animals pictures
+on the left side below the controls when they have entered
+but not pressed [test] yet. Or maybe I should just show all
+animals regardless of whether they have pressed [test] yet
+or not.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+I often find I fork from someone's traffic-light and then
+immediately enter it to demonstrate something. Could I
+provide two buttons on the history dialog
+- one to fork a dojo
+- one to fork a dojo and start an animal?
+Or maybe when you click the fork button it opens a new dialog
+with two buttons offering the two choices above.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Suppose I just hang the externals off the thread hash and each object
+takes what it needs from the thread hash rather than it being passed
+in explicitly. One effect of this is that I might be able to find
+a way to put the externals onto the thread at the Rails startup code
+and avoid having to mess about in the controller base class. This
+will make my tests and my code more alike. I won't have code in the
+controller just for the tests.
+I think I may be able to do it in a externals.rb file placed in
+the config/initializers/ folder. This worked when running the server
+directly (rails s) but not when on the main site via Passenger.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+cyberdojo_test_base.rb does this
+  def self.test(name, &block)
+    define_method("test_#{name}".to_sym, &block)
+  end
+I could use this to do execute_around and automatically
+call @disk.teardown
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+put animal images on front page?
+Put the ones that are in the dojo (with the entered id)
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+rename tests/integration  folder to tests/externals
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Add tests for new Avatar.visible_files method.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+http://localhost:3000/kata/edit/0B416E9012?avatar=zebra
+could be simplified to
+http://localhost:3000/zebra/edit/0B416E9012
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Create helper function to execute a backtick command
+with stderr redirected to output, from a given folder.
+Refactor this from Git.rb
+Then use for lib classes
+  Git.tb
+  UniqueId.rb
+  Runners
+  if $?.exitstatus != 0 for any command then log it.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+on history dialog I could remember tag-number for each animal
+and resume on that number when you return to that
+animal in the same dialog.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+on test page, make animal image (top right) *not* a dashboard link?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+See if citigroup are interested in a corporate license.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Remember to send license to credit-suisse.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Use Amazon console to switch cyber-dojo.org so it uses an
+SSD drive. Nick Todd knows how to do this and is happy to help.
+How to do this so it's down for minimal time?
+First learn how to do it by doing it on a clone.
+Will need to redirect the IP address... Bringing it down for a
+short period of time would mean no dojos get lost during the
+transition. Nick mentioned an elatic? IP address which allows
+the same IP address to be set from the Amazon console, but for
+the server underneath it to be switched.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+use scrollIntoView() for
+  traffic-lights on top line on test page?
+  traffic-lights on top line of dashboard page?
+  select diff chunk appears on history dialog?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+progress. Could this be made into a separate regex that can
+extract numbers when used on the output. If so I could replay
+the regex on all outputs to create a graph of the numbers.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+diff-dialog
+  line 210.  Why do I need this .css() call?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+does refactoring_dojos.tgz still have katas in old manifest.rb format?
+Check this on cyber-dojo.org for eg
+cyberdojo/katas/76/DD58DE08
+which is the refactoring kata for Yahtzee,C++
+Recreate the .tgz file on cyber-dojo.org
+using cyberdojo/admin_scripts/save_refactoring_dojos.rb
+Then scp the .tgz file to my local computer.
+Then make sure that the .tgz file is part of the git repo
+and commit it and push it.
+. . . .
+save_refactoring_dojos.rb is unable to find
+435E5C1C88 (tennis,python,unittest)
+It turns out this was one of the few katas that were not
+converted from rb to json. So it's currently in the
+katas_rb_bad/ folder on cyber-dojo.org
+I have tarred it into its own .tgz file (on cyber-dojo.org)
+tennis_python_refactoring_kata.tgz
+When I have a better internet connection (in China) I will
+recreate the kata from the 435E5C1C88/moose (tag 5) git repo.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+blog.cyber-dojo.org
+  add more PAGES (on lhs)
+  add vision page
+  add intro video  to [learn more] page
+  move testimonials to blog
+  donators become 'friends of cyber-dojo'?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+docker info (1.3.1)
+  WARNING: No swap limit support
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+history.css.scss
+  #diff-controls has absolute positioning.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+check event handlers have event.preventDefault()
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+check dialog() uses remove() and not close()
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+cyber-dojo.org could have adverts for software tools etc.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Internet Explorer popup should come from all the home page buttons.
+And perhaps mention it on footer too.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+aim to minimize server-load. Put as much as possible onto
+blog. Eg help pages, videos, etc. Helps google analytics too.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+dashboard - when user clicks auto-refresh off
+that could be the event that causes the checkboxes for each
+animal to appear...
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+having all the output-parse functions in the same module
+feels wrong. How about putting the function in its own colour.rb
+file which is eval'd. Then I could have a map where the keys
+were the unit_test_framework string and the values were the
+functions. Each language/ folder would have its own colour.rb
+file which would somehow insert itself into the map.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Dojo.rb
+  convert path to absolute path if its not
+  convert path to ensure it ends in /
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+lib/Docker.rb uses 'docker info' and not 'docker --version'
+is this the cause of the [create] page slowdown?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+s/parse_NAME/colour_of_NAME/
+in app/lib/OutputParser.rb (rename to OutputColour.rb)
+Also rename the tests files, eg
+test/output_c_unity.rb -> test_cunity_output_colour.rb
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+diff-dialog uses ajax call to navigate around diff tags.
+these ajax calls do not have timeouts. If you are on a
+flaky network the cursor just spins forever.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+make the traffic-lights scrollbar on [test] page go above
+the traffic-lights rather than below them?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+is there a way to get line-number from caret-position
+I'm thinking about the feature where you have the
+output window open and it names the filename and line number
+of a syntax error and you do alt-E and it opens the file
+named in the syntax error and auto scrolls to the line-number.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Various places have code like this...
+   if ENV['CYBERDOJO_TEST_ROOT_DIR']
+      path += 'test/cyberdojo/'
+    end
+Refactor... first of all rename to specify its only katas/ root
+that is being tweaked.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Generalize
+   Approval.add_created_txt_files(sandbox.path, visible_files)
+   Approval.remove_deleted_txt_files(sandbox.path, visible_files)
+from Language.rb so that language manifest can name patterns it
+uses to regexp-filter newly created files and regexp-filter
+deleted files. These default to nothing - to do nothing.
+This could be combined with steps in cyber-dojo.sh to do some
+quite powerful things, eg creation of coverage stats which are
+then loaded. It creates the possibility of some of these being html
+which is loaded and displayed in a textarea replacement.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Eventually Avatar.tags will contain one entry for each
+avatar event (eg file rename) and Avatar.lights will need
+to filter Avatar.tags
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+make diff-dialog a plain page (non-dialog)?
+This will enable small dialogs for fork failures.
+Issue with this is that it means I cannot (easily)
+collapse the revert/fork into the diff-page. So I will
+need to keep the revert button on the edit-page.
+And only fork will go onto the diff-review page.
+A benefit of making diff-review a page is that it will
+have more space to display a trail of traffic-lights and
+possibly mark on the trail which lights correspond
+to the was-tag and now-tag.
+What about traffic-lights on the edit/test page?
+Do they open a diff-dialog? Perhaps not. Why not have
+just the lights on the dashboard page open a new diff page.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Kata.start_avatar
+  needs to do dir.lock do...end
+  to ensure you don't get two avatars with the same name.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Approval is hard-wired to hard-disk.
+Move it to use OsDisk from externals.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Add manifest parameter to app/model/Language.rb globbing
+the file pattern to add/remove in post-test event?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+forker_controller does this
+  if !is_tag || tag <= 0 || tag > avatar.lights.count
+o) tag > avatar.tags.count
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+katas.exists?(id) could do katas[id] inside a block
+and return false from a rescue
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Avatar.valid?(id) should in AvatarS
+create Avatars.exists?(name) like Katas.exists?(id)
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+I think forker_controller will fail if the exercise
+has been renamed. This does not need to be so.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+should katas.each() check inner and outer are comprised only
+of hex chars and are correct length?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+in controllers I do params['id']
+If id is not present in params this will be nil
+If params['id']==nil is used as part of a string path
+the + concatenation will fail.
+Eg forker_controller
+    kata = dojo.katas[params['id']]
+    if !error && !kata.exists?
+This will create an Id.new(nil)
+which means both
+  Id.new(nil).inner
+  Id.new(nil).outer
+will cause an exception.
+Similarly
+   a = avatars[params['avatar']]
+   a.path
+will cause an exception since in
+    kata.path + name + '/'
+name will be nil.
+Note the need to check name isn't "" since that dir would
+exist - it would be the kata's dir.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+forker-controller could go straight to the tag existence check
+and bypass the kata and avatar check. Would simplify things.
+Perhaps do that in a block and in the rescue clause try
+to determine a finer-grained error message.
+Needs a tags.exists?(tag) function
+Or tags[tag].exists? to match current style.
+This will need Tag to get the max tag for the avatar.
+Add git.max_tag() function?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Move clean(string) code into Dir.read ?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  $ git shortlog
+  lists all the commit tags. So
+  irb: `cd dir;git shortlog -s`.to_i
+  gets you last current git tag
+  And then
+     avatar.tags[-1]
+
+  So if there is no [event:==key] then take it to be a test event.
+  Otherwise the event is named eg :rename
+   colour: for a :rename could be 'previous-red'
+  This gives an easy way to create the list of traffic-lights
+  by simply filtering all the entries.
 
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  in application_controller
-  2>&1 (in docker?) could do with tlc just like in DockerRunner
+Models all check existence in their ctors.
+exists? methods move to container classes
+Eg kata.exists? ==> katas.exists?(id)
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  make sure the new home page looks ok if the browser shows it
-  in various sizes after doing CTL+ and CTL-
+rename Dojo.rb to CyberDojo.rb ?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  application_controller does this...
+    def root_path
+      Rails.root.to_s + (ENV['CYBERDOJO_TEST_ROOT_DIR'] ? '/test/cyberdojo/' : '/')
+    end
+  make it so root_path is always set via ENV far from shell?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  Folders.id_complete can move to Katas.complete(id)
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  kata.start_avatar
+     copy visible_filenames
+        # this could also be replaced by
+        # kata.language.visible_filenames.each do |filename|
+        #   from = path(kata.language) + filename
+        #     to = path(avatar.sandbox) + filename
+        #   `cp #{from} #{to}`
+        #   git_add(avatar.sandbox, filename)
+        # end
+        # But this would be impossible to mock.
+        # It's too imperative.
+        # I need to tell the language to copy it visible_files
+        # to a given folder (which it is passed) which it
+        # does not know is the folder for an avatar's sandbox.
+        # This will also remove the dependency on content here.
+    copy support_filenames
+        # doing a `cp #{from} #{to}` here would mean that
+        # once the kata was created it was no longer dependent
+        # on the language still being available...
+        # Howewever, it would increase the size of .tar.gz files
+        # that would get xfer'd to a readonly server.
+
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  add blurb to start of initial source files explaining that
+  the initial source files bare no relation to the exercise?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  max-duration could be a ctor parameter for DockerRunner
+  and not for test()?
+  Or is it feasible that the duration could become a parameter
+  in a language manifest for example?
+  What about tests? Is it simpler to substitute a different
+  max-duration as a parameter? I think so.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  test/app_models/test_avatar_test.rb
+  has some tests that need reviving.
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  kata.avatars['lion'].tag[4]
+    handy shortcut for this could be
+  kata.lion.tag[4]
+    only really useful in testing?
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   There should be a dependency on the language manifest file
   only for startup. Once started a kata should have a *copy* of
@@ -15,33 +346,15 @@
   add in example of each primitive useable in the unit-test-framework
   chosen. As an example see the starting test code for James' cpputest.
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  is make_manifest in test_helper.rb used anywhere anymore?
-  move app/lib/Choose.language into app/models/Languages?
-  move app/lib/Choose.exercise into app/models/Exercises?
-  move app/lib/Folders.id_complete into app/models/Katas.complete(id) ?
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  application_controller does this...
-    def root_path
-      Rails.root.to_s + (ENV['CYBERDOJO_TEST_ROOT_DIR'] ? '/test/cyberdojo/' : '/')
-    end
-  make it so root_path is always set via ENV far from shell.
-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   prune_large.rb and prune_small.rb rework to used Dojo.each function
   Dojo.create_kata(manifest)
     add 2nd parameter specifying format, no default, on call use "rb"
   ...
-  app_lib/Choose methods -> Dojo methods
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-  Revert and fork javascript is virtually identical.
-  ...
-  Can i18n yml files be split?
-  ...
   Exception_controller_test.rb needs some assertions!
-  ...
-  Rename css files,
-    eg forker->forker_dialog
-    eg reverter->reverter_dialog
-    eg diff->diff_dialog
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  Rename css file,
+    diff->diff_dialog
     don't forget to update application.css.scss
 - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
   It would be simpler if output and instructions were not mixed
@@ -54,53 +367,11 @@
 
 
 
-
-In app/models/avatar.rb
-#
-# idea is that instead of doing this
-#     @git = Thread.current[:git] || DiskGit.new
-# I do this...
-#     @git = Thread.current[:newDiskGit].call(dir)
-# and the outer context does this
-#     Thread.current[:newDiskGit] = Proc.new{|dir| new DiskGit(dir)}
-# or in tests, does this...
-#     Thread.current[:newDiskGit] = Proc.new{|dir| new MockGit(dir)}
-#
-# This also means that the root_dir does not have to be
-# passed into the kata/avatar/sandbox objects
-# and is instead held in the external DiskGit object
-# which seems much more cohesive.
-#
-# If doing this on DiskFile check out the symlink() function though
-
-In test/installation/one_language_checker.rb
-# currently get_filename_42() uses an algorithm to find the
-# the file to change to verify red/amber/green status from
-# the code-output-parser. This doesn't work for some
-# test frameworks such as Ruby-cucumber because they have
-# multiple files containing 42.
-# Perhaps explicitly pass in the filename containing the 42
-# to be peturbed as an argument?
-
-Ensuring cyber-dojo.sh cleans up any processes is messy. Instead of
-trying to find children by walking pid/ppid hierarchy it would be
-better to use pgid - process group. See lib/Files.rb
-Note, if you're running under apache then this never seems to be
-a problem - does apache auto clean processes?
 -----
 Pressing the test button in the browser sometimes creates a new
 traffic-light but the output you get back gets stuck and does
 not reflect edits made to the files. A work-around when this happens
 is to reopen the URL in a new tab.
------
-Do I need to do io_locks? Suppose there is a conflict. Could this
-simply mean the git commit fails with a merge conflict? I think
-not, since at the moment the avatar/sandbox folder is deleted
-before each commit. But if a merge conflict could be created it
-would open up the possibility of having multiple players all
-playing as the same avatar. There could also be conflicts in the
-sandbox where the tests are run. Perhaps that is the place to
-check for conflicts?
 -----
 On my Mac (10.7.4) using Firefox (18.0.1) using a local server
 (http://localhost:3000) when you load a file and move the cursor
@@ -117,19 +388,8 @@ It would be simpler if output and instructions were not mixed
 into kata.language and avatar.setup did an explicit
 save(kata.exercise.instructions)
 -----
-kata.dir should probably return a dir with a / catenated to the end.
-  This would simplify lines 10,26,74 (and probably more in exercises and languages)
------
-avatar.dir should probably return a dir with a / catenated to the end.
-  This would simplify line 80
------
-rename fork to branch?
------
 Edit help dialog needs to show fork icon. Or the word fork now that the
   overly subtle fork-icon has been dropped.
------
-Opening file when you start is the output file and it says something like
-  "please wait... initial code and tests have been submitted to the server..."
 -----
 The starting test file should explicitly say that the initial code
   is always the same for all exercises and just gives a very simple
@@ -172,21 +432,12 @@ commonality in dialogs with only ok button? with only cancel button?
 make new-file dialog ask for inital name?
 -----
 isolate make new-file and rename-file dialogs and put into dedicated
-  dialog js files.
------
-java-cucumber fails test/installation_tests.rb
------
-add tip to dashboard that setting secs_per_column to 999999
-  collapses the columns into 1 if you want to see a non-spaced
-  timeline of traffic lights.
+  dialog js files?
 -----
 The Click-to-revert tip could appear when the current-traffic-light-count
   disappears (and disappear when it reappears). This would also mean
   you don't get the 'Click to revert' tip when there is only one
   traffic-light (which is kind of pointless).
------
-increments should be renamed to traffic_lights. And traffic_lights
-  should become a model.
 -----
 Now that the traffic-lights offer reverting, it makes sense to allow
   you to revert from any traffic-light. Yet only enough to fit on the
@@ -213,11 +464,6 @@ the dashboard traps carriage-returns on the secs_per_columns and
   posting (like the diff page does for the was_tag and now_tag
   text fields)
 -----
-I'd like the rightmost column of avatar images on the dashboard
-  to not scroll off screen. But at the same time I'd also like
-  the time-moving traffic-lights to update (to the avatar image's
-  left) every 10 seconds.
------
 allow initial manifest.rb setup of initial exercise/language to
   contain subfolders. Do I need this? Could it already be done
   with links?
@@ -227,12 +473,8 @@ once a dojo has been created it should be independent of the
   For example, you should be able to rename a languages sub-folder
   and a dojo created from it before the rename should be ok.
 -----
-sort filenames so filenames with no . in them are grouped together
-  and filenames with one or more . in them are grouped together?
-sort filenames so files with the same extension are grouped together?
------
-diff-filename-click cycles to the next diff but it loses the current red/green
-  toggling states
+diff-filename-click cycles to the next diff but it loses the
+  current red/green toggling states
 -----
 in diff page when you go back to a file with diff it should not cycle to next
   diff change it should only cycle to next diff change if you click the filename
@@ -256,18 +498,13 @@ module TrafficLight
   end
 end
 -----
-the various uses of eval in the ruby code could do with being replaced with
-a json parse.
------
 The intention with the installation tests is that they are used to determine
 what languages are installed and to only offer those languages (at the create
 page). But at the moment all the languages are being offered.
 -----
-Getting Objective-C compiling on Ubuntu
-http://www.gnustep.org/
------
-Install scala on Ubuntu
-http://wiki.summercode.com/how_to_install_scala_on_ubuntu_scala_2_8_1_and_ubuntu_10_04
-http://www.scala-lang.org/downloads
-http://blog.cingusoft.org/install-scala-on-mac-os-x
------
+in app_controllers
+  s/fork/forker/
+  s/revert/reverter/ ?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+  light = avatar.lights[params['tag']]   ?in forker_controller?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

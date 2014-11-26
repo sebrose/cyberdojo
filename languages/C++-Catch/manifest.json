@@ -1,9 +1,9 @@
 
 {
   "visible_filenames": [
-    "untitled.cpp",
-    "untitled.tests.cpp",
-    "untitled.hpp",
+    "hiker.tests.cpp",
+    "hiker.cpp",
+    "hiker.hpp",
     "makefile",
     "cyber-dojo.sh"
   ],
@@ -11,8 +11,7 @@
     "catch.hpp"
   ],
   "filename_extension" : ".cpp",
-  "display_name": "C++",
-  "display_test_name": "catch",
+  "display_name": "C++, catch",
   "unit_test_framework": "catch",
   "image_name": "cyberdojo/gpp-4.8.1_catch"
 }

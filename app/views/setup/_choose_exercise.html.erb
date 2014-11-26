@@ -1,12 +1,9 @@
 
 <script type="text/javascript"><!--
 
-$(document).ready(function() {
+$(function() {
 
   var previousExercise = undefined;
-  var container = $('#div-exercises');
-  var downFromTop = 100;
-  var halfSecond = 500;
   var selected = $('#exercise_' + <%= @selected_exercise_index %>);
 
   $('[id^=exercise_]').each(function(index) {
@@ -20,21 +17,18 @@ $(document).ready(function() {
   });
 
   selected.click();
-  // ensure visible
-  container.animate({
-    scrollTop: selected.offset().top - container.offset().top - downFromTop
-  }, halfSecond);
+  selected.scrollIntoView({ direction: 'vertical' });
 
 });
 
 //--></script>
 
-<div id="div-exercises">
+<div id='exercises-container'>
   <% @exercises_names.each_with_index do |choice,index| %>
-    <div class="filename"
+    <div class='filename'
          id="exercise_<%= index %>"
          data-exercise="<%= choice %>" >
-      <%= choice.gsub("_", " ") %>
+      <%= choice.gsub('_', ' ') %>
     </div>
   <% end %>
 </div>

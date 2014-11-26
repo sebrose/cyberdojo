@@ -1,23 +1,21 @@
 
 <script type="text/javascript"><!--
 
-$(document).ready(function() {
+$(function() {
+
   $('#avatar-image-opens-dashboard').click(function() {
     var id = $(this).data('id');
     var url = '/dashboard/show/' + id;
     window.open(url);
   });
+  
 });
 
 //--></script>
 
 <div id="avatar-image-opens-dashboard"
      data-id="<%= @kata.id %>"
-     class="tipped">
-  <div class="tooltip">
-    open a new<br>
-    dashboard page
-  </div>
+     title="open a new dashboard page">
   <img alt="<%= @avatar.name %>"
        title="<%= @avatar.name %>"
        class="avatar_image"

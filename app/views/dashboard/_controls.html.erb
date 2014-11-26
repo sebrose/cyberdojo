@@ -1,93 +1,78 @@
 
 <script type="text/javascript"><!--
 
-$(document).ready(function() {
+$(function() {
 
-  var id = function() {
-    return "<%= @kata.id %>";
-  };
+  var id = '<%= @kata.id %>';
+  var minuteColumns = $('#minute-columns-checkbox');
+  var autoRefresh   = $('#auto-refresh-checkbox');
 
-  var minuteColumns = function() {
-    return $('#minute_columns_checkbox').is(':checked');
-  };
-
-  var autoRefresh = function() {
-    return $('#auto_refresh_checkbox').is(':checked');
+  var isChecked = function(checkbox) {
+    return checkbox.is(':checked');
   };
 
   var dashboardHeartbeat = function() {
-    if (autoRefresh()) {
+    if (isChecked(autoRefresh)) {
       $.ajax({
         url: '/dashboard/heartbeat',
         data: {
-          id: id(),
-          minute_columns: minuteColumns(),
-          auto_refresh: autoRefresh()
+          id: id,
+          minute_columns: isChecked(minuteColumns),
+          auto_refresh: isChecked(autoRefresh)
         },
-        dataType: "script"
+        dataType: 'script'
       });
     }
   };
 
   var refreshDashboard = function() {
-    var url = '/dashboard/show/' + id() + '?' +
-              'minute_columns=' + minuteColumns() + '&' +
-              'auto_refresh=' + autoRefresh();
+    var url = '/dashboard/show/' + id +
+              '?' + 'minute_columns=' + isChecked(minuteColumns) +
+              '&' + 'auto_refresh=' + isChecked(autoRefresh);
     window.location = url;
   };
 
-  var seconds = 1000;
+  var milliSecond = 1;
+  var seconds = 1000 * milliSecond;
   setInterval(dashboardHeartbeat, 10*seconds);
 
-  $('#minute_columns_checkbox')
-    .attr('checked', "<%= @minute_columns %>" === "true")
-    .click(function() {
-      refreshDashboard();
-    });
+  minuteColumns
+    .attr('checked', '<%= @minute_columns %>' === 'true')
+    .click(function() { refreshDashboard(); });
 
-  $('#auto_refresh_checkbox')
-    .attr('checked', "<%= @auto_refresh %>" === "true")
-    .click(function() {
-      refreshDashboard();
-    });
+  autoRefresh
+    .attr('checked', '<%= @auto_refresh %>' === 'true')
+    .click(function() { refreshDashboard(); });
 
 });
 
 //--></script>
 
-<div class="panel">
-  <table id="controls-container">
-    <tr>
-      <td class="align-right">
-        <div title="toggles 60-second columns on/off">
-          <%= raw t("views.labels.columns") %>
-        </div>
-      </td>
-      <td>
-        &nbsp;
-      </td>
-      <td>
-        <input type="checkbox"
-               class="regular-checkbox"
-               id="minute_columns_checkbox"/>
-          <label for="minute_columns_checkbox"></label>
-      </td>
-    </tr>
-    <tr>
-      <td class="align-right">
-        <div title="toggle the 10 second auto-refresh on/off">
-          <%= raw t('views.labels.auto_refresh') %>
-        </div>
-      </td>
-      <td>
-        &nbsp;
-      </td>
-      <td>
-        <input type="checkbox"
-               class="regular-checkbox"
-               id="auto_refresh_checkbox"/>
-          <label for="auto_refresh_checkbox"></label>
-      </td>
-    </tr>
-  </table>
-</div>
+<table id="controls-container">
+  <tr>
+    <td class="align-right">
+      <div title="toggle the 10 second auto-refresh on/off">
+        <%= raw t('views.labels.auto_refresh') %>
+      </div>
+    </td>
+    <td>
+      <input type="checkbox"
+             class="regular-checkbox"
+             id="auto-refresh-checkbox"/>
+        <label for="auto-refresh-checkbox"></label>
+    </td>
+  </tr>
+  <tr>
+    <td class="align-right">
+      <div title="toggles 60-second columns on/off">
+        <%= raw t("views.labels.time_gaps") %>
+      </div>
+    </td>
+    <td>
+      <input type="checkbox"
+             class="regular-checkbox"
+             id="minute-columns-checkbox"/>
+        <label for="minute-columns-checkbox"></label>
+    </td>
+  </tr>
+</table>

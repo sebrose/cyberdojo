@@ -1,13 +1,12 @@
 
 {
   "visible_filenames": [
-    "untitled.go",
-    "untitled_test.go",
+    "hiker_test.go",
+    "hiker.go",
     "cyber-dojo.sh"
   ],
   "filename_extension" : ".go",
-  "display_name": "Go",
-  "display_test_name": "testing",
+  "display_name": "Go, testing",
   "unit_test_framework": "go_testing",
   "image_name": "cyberdojo/go-1.1.2_testing",
   "tab_size": 4

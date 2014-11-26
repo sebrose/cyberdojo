@@ -1,12 +1,11 @@
 {
   "visible_filenames": [
-    "untitled.js",
-    "untitledTest.js",
+    "hikerTest.js",
+    "hiker.js",
     "cyber-dojo.sh"
   ],
   "filename_extension" : ".js",
-  "display_name": "JavaScript",
-  "display_test_name": "assert",
+  "display_name": "Javascript, assert",
   "unit_test_framework": "node",
   "image_name": "cyberdojo/javascript-0.10.15_assert",
   "tab_size": 2

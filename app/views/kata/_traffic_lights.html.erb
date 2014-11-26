@@ -1,10 +1,11 @@
 
 <script type="text/javascript"><!--
 
-$(document).ready(function() {
+$(function() {
 
-  cd.pieChart($('.pie'));
-  cd.setupTrafficLightOpensDiffDialogHandlers($('.diff-traffic-light'));
+  cd.pieChart($('#traffic-lights .pie'));
+  var showRevert = true;
+  cd.setupTrafficLightOpensHistoryDialogHandlers($('.diff-traffic-light'),showRevert);
   var allTheWay = 100000;
   $('#traffic-lights').scrollLeft(allTheWay);
 
@@ -15,23 +16,23 @@ $(document).ready(function() {
 <table>
   <tr class="row">
 
-	<% @traffic_lights.each do |light| %>
+	<% @avatar.lights.each do |light| %>
 	  <td>
-		<%= diff_traffic_light(@kata, @avatar.name, light, @traffic_lights.length) %>
+		<%= raw diff_traffic_light(light) %>
 	  </td>
 	<% end %>
 
 	<td>
 	  <%= render :partial => 'shared/traffic_light_count',
-				 :locals  => { :traffic_lights => @traffic_lights,
-							   :avatar_name    => translate_avatar(@avatar.name)
+				 :locals  => { :lights => @avatar.lights,
+							   :avatar_name => @avatar.name
 							 } %>
 	</td>
 
-    <% if @traffic_lights.length > 1 %>
-	  <td>
-        <%= pie_chart(@traffic_lights,35) %>
-	  </td>
+    <% if @avatar.active? %>
+	<td>
+	  <%= raw pie_chart(@avatar.lights, 40, @avatar.name) %>
+	</td>
     <% end %>
 
 	<td>

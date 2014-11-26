@@ -1,13 +1,12 @@
 
 {
   "visible_filenames": [
-    "untitled.py",
-    "test_untitled.py",
+    "test_hiker.py",
+    "hiker.py",
     "cyber-dojo.sh"
   ],
   "filename_extension" : ".py",
-  "display_name": "Python",
-  "display_test_name": "unittest",
+  "display_name": "Python, unittest",
   "unit_test_framework": "python_unittest",
   "image_name": "cyberdojo/python-3.3.5_unittest",
   "tab_size": 4

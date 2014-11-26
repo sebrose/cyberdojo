@@ -1,25 +1,47 @@
 
 class Languages
+
   include Enumerable
 
-  def initialize(dojo)
-    @dojo = dojo
+  def initialize(path,disk,runner)
+    @path,@disk,@runner = path,disk,runner
   end
 
-  attr_reader :dojo
+  attr_reader :path
 
   def each
-    paas.all_languages(self).each { |name| yield self[name] }
+    # dojo.languages.each { |language| ... }
+    languages.each do |language|
+      yield language if block_given?
+    end
   end
 
   def [](name)
-    Language.new(dojo, name)
+    # dojo.languages[name]
+    make_language(name)
   end
 
 private
 
-  def paas
-    dojo.paas
+  def languages
+    @languages ||= make_cache
+  end
+
+  def make_cache
+    cache = [ ]
+    dir.each do |sub_dir|
+      language = make_language(sub_dir)
+      cache << language if language.exists?
+    end
+    cache
+  end
+
+  def make_language(name)
+    Language.new(path,name,@disk,@runner)
+  end
+
+  def dir
+    @disk[path]
   end
 
 end

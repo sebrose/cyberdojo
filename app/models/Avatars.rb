@@ -1,9 +1,7 @@
 
 class Avatars
-  include Enumerable
 
   def self.names
-      # no two animals start with the same letter
       %w(
           alligator buffalo cheetah deer
           elephant frog gorilla hippo
@@ -12,24 +10,39 @@ class Avatars
         )
   end
 
-  def initialize(kata)
-    @kata = kata
+  def self.valid?(name)
+    names.include?(name)
   end
 
-  attr_reader :kata
+  # - - - - - - - - - - - - - - - - - - -
+
+  include Enumerable
+
+  def initialize(kata,externals)
+    @kata,@externals = kata,externals
+  end
 
   def each
-    paas.all_avatars(kata).each { |name| yield self[name] }
+    # kata.avatars.each {|avatar| ...}
+    Avatars.names.each do |name|
+      avatar = self[name]
+      yield avatar if avatar.exists? && block_given?
+    end
+  end
+
+  def active
+    # kata.avatars.active
+    self.select{ |avatar| avatar.active? }
   end
 
   def [](name)
-    Avatar.new(kata,name)
+    # kata.avatars['lion']
+    Avatar.new(@kata,name,@externals)
   end
 
-private
-
-  def paas
-    kata.dojo.paas
+  def count
+    # kata.avatars.count
+    entries.length
   end
 
 end

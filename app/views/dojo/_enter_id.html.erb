@@ -1,48 +1,52 @@
 
 <script type="text/javascript"><!--
 
-$(document).ready(function() {
+$(function() {
 
   var kataIdInput = $('#kata-id-input');
+
+  var enterButton   = $('#enter-button');
+  var reviewButton  = $('#review-button');
+  var reEnterButton = $('#reenter-button');
+
+  var disable = function(button) {
+      button.prop('disabled', true);
+  };
 
   var enableIf = function(button, condition) {
     if (condition) {
       button.removeAttr('disabled');
     } else {
-      button.attr('disabled', true);
+      disable(button);
     }
   };
 
-  cd.enableDisableEnterReEnterReview = function() {
+  var enableDisableEnterReEnterReview = function() {
     var id = kataIdInput.val();
-    enableIf($('#enter-button'), false);
-    enableIf($('#reenter-button'), false);
-    enableIf($('#review-button'), false);
+    disable(enterButton);
+    disable(reEnterButton);
+    disable(reviewButton);
     if (id.length >= 6) {
-      $.getJSON('/dojo/valid_id', { id: id }, function(dojo) {
-        enableIf($('#enter-button'), dojo.exists);
-        enableIf($('#reenter-button'), dojo.started > 0);
-        enableIf($('#review-button'), dojo.started > 0);
+      $.getJSON('/dojo/check_id', { id: id }, function(dojo) {
+        enableIf(enterButton, dojo.exists);
+        enableIf(reEnterButton, dojo.exists);
+        enableIf(reviewButton, dojo.exists);
       });
     }
   };
 
   kataIdInput.keyup(function() {
-    cd.enableDisableEnterReEnterReview();
+    enableDisableEnterReEnterReview();
   });
 
-  cd.enableDisableEnterReEnterReview();
+  enableDisableEnterReEnterReview();
 });
 
 //--></script>
 
-<input class="tipped"
+<input title="an id contains only the digits 0123456789 and letters ABCDEF, and is case insensitive"
        type="text"
        id="kata-id-input"
        size="8"
        value="<%= @id[0..5] %>">
-  <div class="tooltip">
-    an id contains only the digits 0123456789
-    and letters ABCDEF, and is case insensitive
-  </div>
 </input>

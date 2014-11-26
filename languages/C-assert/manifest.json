@@ -1,15 +1,14 @@
 
 {
   "visible_filenames": [
-     "untitled.c",
-     "untitled.h",
+     "hiker.tests.c",
+     "hiker.c",
+     "hiker.h",
      "makefile",
-     "untitled.tests.c",
      "cyber-dojo.sh"
   ],
   "filename_extension" : ".c",
-  "display_name": "C",
-  "display_test_name": "assert",
+  "display_name": "C, assert",
   "unit_test_framework": "cassert",
   "image_name": "cyberdojo/gcc-4.8.1_assert"
 }

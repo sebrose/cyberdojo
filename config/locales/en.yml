@@ -19,20 +19,15 @@ en:
       zebra: "zebra"
       
     labels:
-      a_place_to_practice: "a place to <a href='http://jonjagger.blogspot.co.uk/p/cyber-dojo_2380.html'>practice</a>"
-      programming: "programming"
+      the_place_to_practice_programming: "the place to practice programming"
       get_a_new_practice_id: "get a new id"
       enter_the_practice_id: "on <em>each</em> computer enter the same id"
-      please_donate: "if you find cyber&#8209;dojo useful please donate.
-                      donations are used solely to buy
-                      <a href='http://www.raspberrypi.org/' target='_blank'>raspberry pi'es</a>
-                      <a href='http://jonjagger.blogspot.co.uk/2013/04/cyber-dojo-raspberry-pies-in-action.html' target='_blank'>for kids</a>."
       your_animal_is: "your animal is the"
       revert: "revert"
       click_to_revert: "click<br/>&larr;to<br/>revert<br/>"
       sorry_full_up: "sorry, full up!"
       click_to_re_enter: "click the animal"
-      columns: "60s columns"
+      time_gaps: "time gaps"
       auto_refresh: "auto refresh"
       days: "days"
       hours: "hours"
@@ -54,16 +49,7 @@ en:
       enter: "enter"
       reenter: "re&#8209;enter"
       review: "review"
-      
-      faqs: "faqs"
-      get-started: "get&nbsp;started"
-      tips: "tips"
-      
-      about: "about"
-      donators: "donators"
-      give-feedback: "give&nbsp;feedback"
-      why: "why"
-      
+            
       test: "test"
       new_file: "new"
       rename_file: "rename"
@@ -71,48 +57,4 @@ en:
       fork: "fork"
       revert: "revert"
       download: "download"
-
-    feedback:
-      please: "please"
-      email_me: "email me"
-      what_did_you_like_dislike: "What did you like?<br/>What did you dislike?"
-      what_worked_failed: "What worked?<br/>What didn't?"
-      what_should_i_add_remove: "What should I add?<br/>What should I remove?"
       
-    tips:
-      think_about_improving_not_finishing: "Think about improving, not finishing"
-      
-    donations:
-      individuals: "individuals"
-      companies: "companies"
-      schlumberger: "Schlumberger Beijing Geoscience Center have found
-                     cyber-dojo an invaluable tool for training and development
-                     of our software community and believe the project has a
-                     bright future. Thank for you contribution to our training
-                     efforts. We are delighted to sponsor the cyber-dojo project
-                     by contributing $1000."
-      
-    faqs:
-      why_dont_you_add_syntax_highlighting: "why don't you add syntax highlighting ?"
-      why_dont_you_add_auto_refactoring: "why don't you add auto-refactoring ?"
-      why_dont_you_add_dot_dot_dot: "why don't you add ... ?"
-      no_listen: "no. listen. stop trying to go faster, start trying to go <em>slower</em>."
-      dont_think_about_finishing: "don't think about finishing, think about <em>improving</em>."
-      think_about_practising: "think about <em>practising</em> as a <em>team</em>."
-      thats_what_cyberdojo_is_built_for: "that's what cyber-dojo is built for."
-      
-    kata_help:
-      opens_a_home_page: "opens a<br/>home<br/>page"
-      opens_a_dashboard_page: "opens a<br/>dashboard<br/>page"
-      opens_a_diff_review: "opens a<br/>diff<br/>dialog"
-      runs_the_tests: "runs the tests"
-      the_tests_ran_but_one_or_more_failed: "tests ran but one or more failed"
-      the_tests_could_not_be_run: "tests did not run (eg syntax error)"
-      the_tests_ran_and_all_passed: "tests ran and all passed"
-      filename: "filename"
-      opens_the_filename: "opens filename"
-      open_the_output_file: "toggles to-from the output file"
-      open_the_next_lit_file: "cycles forwards through the lit files"
-      open_the_previous_lit_file: "cycles backwards through the lit files"
-      
-    dashboard:

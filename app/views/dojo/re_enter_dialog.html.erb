@@ -1,6 +1,5 @@
 
 <div>
-  <div class="align-center medium"><%= t("views.labels.click_to_re_enter") %></div>
   <table class="align-center">
     <% index = 0 %>
     <% size = 60 %>
@@ -10,7 +9,7 @@
       <td class="panel">
         <% avatar_name = @all_avatar_names[index] %>
         <% if @started_avatar_names.include?(avatar_name) %>
-          <img onclick='return cd.re_enter("<%= @kata.id %>","<%= avatar_name %>");'
+          <img onclick='return cd.reEnter("<%= @kata.id %>","<%= avatar_name %>");'
                src="/images/avatars/<%= avatar_name %>.jpg"
                title="<%= avatar_name %>"
                width="<%= size %>"
@@ -27,4 +26,5 @@
     </tr>
     <% end %>
   </table>
+  <div class="align-center small"><%= t("views.labels.click_to_re_enter") %></div>
 </div>

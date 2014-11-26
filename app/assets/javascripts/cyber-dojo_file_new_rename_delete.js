@@ -39,7 +39,7 @@ var cyberDojo = (function(cd, $) {
   // -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 
   cd.doDelete = function(filename) {
-	// Also used in cyber-dojo_dialog_revert.js
+	// Also used in cyber-dojo_dialog_diff.js (revert)
     cd.fileDiv(filename).remove();
     var filenames = cd.rebuildFilenameList();
 	var i = cd.nonBoringFilenameIndex(filenames);
@@ -69,10 +69,6 @@ var cyberDojo = (function(cd, $) {
 	  click: function() {
 		var newFilename = $.trim(input.val())
 		cd.newFileContent(newFilename, '');
-		// hack to ensure if line-numbers are off
-		// then they are not initially displayed
-		$('#line_numbers_button').click();
-		$('#line_numbers_button').click();
 		$(this).remove();
 	  }
 	};
@@ -190,9 +186,9 @@ var cyberDojo = (function(cd, $) {
 	  }
     });
 
-	// Don't refactor to renamer.dialog('open')
-	// If you do that the dialog only works the first time. See
-	// http://praveenbattula.blogspot.co.uk/2009/08/jquery-dialog-open-only-once-solution.html
+    // Don't refactor to renamer.dialog('open')
+    // If you do that the dialog only works the first time. See
+    // http://praveenbattula.blogspot.co.uk/2009/08/jquery-dialog-open-only-once-solution.html
     $('#rename_file_dialog').dialog('open');
     var end = oldFilename.lastIndexOf('.');
     if (end === -1) {
@@ -204,61 +200,43 @@ var cyberDojo = (function(cd, $) {
   // -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 
   cd.renameFileFromTo = function(oldFilename, newFilename) {
-    cd.saveScrollPosition(oldFilename);
-	cd.rewireFileFromTo(oldFilename, newFilename);
-	cd.rebuildFilenameList();
-	cd.loadFile(newFilename);
-  };
+    var oldFile = cd.fileContentFor(oldFilename);
+    var content = oldFile.val();
+    var scrollTop = oldFile.scrollTop();
+    var scrollLeft = oldFile.scrollLeft();
+    var caretPos = oldFile.caret();
+    $(oldFile).closest('tr').remove();
 
-  // -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
-
-  cd.rewireFileFromTo = function(oldFilename, newFilename) {
-    // I used to delete the old file and then create
-    // a new one with the deleted file's content.
-    // However, rewiring the existing dom node is better
-    // since it is much easier to retain its cursor
-    // and scroll positions that way.
-    //
-    // See ap/views/kata/_visible_file.html.erb
-    //    <div class="filename_div"
-    //         id="<%= filename %>_div">
-    var div = cd.id(oldFilename + '_div');
-    div.attr('id', newFilename + '_div');
-    //        <textarea class="line_numbers"
-    //                  id="<%= filename %>_line_numbers">
-    var nos = cd.id(oldFilename + '_line_numbers');
-    nos.attr('id', newFilename + '_line_numbers');
-    //        <textarea class="file_content"
-    //                  name="file_content[<%= filename %>]"
-    //                  id="file_content_for_<%= filename %>"
-    var ta = cd.id('file_content_for_' + oldFilename);
-	ta.data('filename', newFilename);
-    ta.attr('name', "file_content[" + newFilename + "]");
-    ta.attr('id', 'file_content_for_' + newFilename);
+	cd.newFileContent(newFilename, content);
+    var div = cd.fileDiv(newFilename);
+    cd.rebuildFilenameList();
+    cd.loadFile(newFilename);
+    var newFile = cd.fileContentFor(newFilename);
+    // Note that doing the seemingly equivalent
+    //   fc.scrollTop(top);
+    //   fc.scrollLeft(left);
+    // here does _not_ work. I use animate instead with a
+    // very fast duration==1 and that does work!
+    newFile.animate({scrollTop: scrollTop, scrollLeft: scrollLeft}, 1);
+    newFile.caret(caretPos);
   };
 
   // -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -  -
 
   cd.isValidFilename = function(filename) {
-	var tipWindow = $('#tip-window');
     if (filename === "") {
-	  cd.showTip('no filename', tipWindow);
       return false;
     }
     if (cd.filenameAlreadyExists(filename)) {
-	  cd.showTip('already exists', tipWindow);
       return false;
     }
     if (filename.indexOf("\\") !== -1) {
-	  cd.showTip("can't contain \\", tipWindow);
       return false;
     }
     if (filename[0] === '/') {
-	  cd.showTip("can't start with /", tipWindow);
       return false;
     }
     if (filename.indexOf("..") !== -1) {
-	  cd.showTip("can't contain ..", tipWindow);
       return false;
     }
     return true;

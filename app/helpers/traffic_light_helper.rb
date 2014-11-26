@@ -1,52 +1,57 @@
 
 module TrafficLightHelper
 
-  def diff_traffic_light(kata, avatar_name, light, max_lights)
+  # The data-id, data-avatar-name, data-was-tag, data-now-tag
+  # values are used to create click handlers that open a diff-dialog
+  # See setupTrafficLightOpensDiffDialogHandlers()
+  # in app/asserts/javascripts/cyber-dojo_dialog_diff.rb
+
+  def diff_traffic_light(light)
     # used from test page and from dashboard page
-    number = light['number'].to_i
-    ("<div class='diff-traffic-light'" +
-         " title='#{tool_tip(avatar_name,light)}'" +
-         " data-id='#{kata.id}'" +
-         " data-avatar-name='#{avatar_name}'" +
-         " data-was-tag='#{number-1}'" +
-         " data-now-tag='#{number}'" +
-         " data-max-tag='#{max_lights}'>" +
-        traffic_light_image(colour(light), 17, 54) +
+    number = light.number
+    avatar = light.avatar
+    "<div class='diff-traffic-light'" +
+        " title='#{tool_tip(light)}'" +
+        " data-id='#{avatar.kata.id}'" +
+        " data-avatar-name='#{avatar.name}'" +
+        " data-was-tag='#{number-1}'" +
+        " data-now-tag='#{number}'>" +
+        traffic_light_image(light.colour, 17, 54) +
      "</div>"
-    ).html_safe
   end
 
-  def colour(light)
-     # very old dojos used 'outcome'
-     (light['colour'] || light['outcome']).to_s
-  end
-
-  def no_diff_avatar_image(kata, avatar_name, light, max_lights)
-    ("<div class='diff-traffic-light'" +
-         " title='review #{avatar_name}s current code'" +
-         " data-id='#{kata.id}'" +
-         " data-avatar-name='#{avatar_name}'" +
-         " data-was-tag='#{light['number']}'" +
-         " data-now-tag='#{light['number']}'" +
-         " data-max-tag='#{max_lights}'>" +
-        "<img src='/images/avatars/#{avatar_name}.jpg'" +
-            " alt='#{avatar_name}'" +
+  def diff_avatar_image(avatar)
+    "<div class='diff-traffic-light avatar-image'" +
+        " title='Click to review #{avatar.name}#{apostrophe}s current code'" +
+        " data-id='#{avatar.kata.id}'" +
+        " data-avatar-name='#{avatar.name}'" +
+        " data-was-tag='-1'" +
+        " data-now-tag='-1'>" +
+        "<img src='/images/avatars/#{avatar.name}.jpg'" +
+            " alt='#{avatar.name}'" +
             " width='45'" +
             " height='45'/>" +
      "</div>"
-    ).html_safe
   end
 
   def traffic_light_image(colour, width, height)
-    ("<img src='/images/traffic_light_#{colour}.png'" +
-      " alt='#{colour} traffic-light'" +
-      " width='#{width}'" +
-      " height='#{height}'/>").html_safe
+    "<img src='/images/traffic_light_#{colour}.png'" +
+       " alt='#{colour} traffic-light'" +
+       " width='#{width}'" +
+       " height='#{height}'/>"
   end
 
-  def tool_tip(avatar_name, light)
-    n = light['number'].to_i
-    "review #{avatar_name}s #{n-1} &harr; #{n} diff"
+  def tool_tip(light)
+    n = light.number
+    "Click to review #{light.avatar.name}#{apostrophe}s #{n-1} #{arrow} #{n} diff"
+  end
+
+  def apostrophe
+    '&#39;'
+  end
+
+  def arrow
+    '&harr;'
   end
 
 end

@@ -1,61 +1,40 @@
 
 <script type="text/javascript"><!--
 
-$(document).ready(function() {
+$(function() {
 
   var fileButtons =  $('#file-operations');
 
-  fileButtons.find('#new').click(function() {
-    var title = $(this).data('title');
-    cd.newFile(title);
-  });
+  fileButtons.find('#new')
+    .click(function() { cd.newFile($(this).data('title')); });
 
-  fileButtons.find('#rename').click(function() {
-    var title = $(this).data('title');
-    cd.renameFile(title);
-  });
+  fileButtons.find('#rename')
+    .click(function() { cd.renameFile($(this).data('title')); });
 
-  fileButtons.find('#delete').click(function() {
-    var title = $(this).data('title');
-    cd.deleteFile(title);
-  });
+  fileButtons.find('#delete')
+    .click(function() { cd.deleteFile($(this).data('title')); });
 
 });
 
 //--></script>
 
-<table id="file-operations">
-  <tr>
-    <td>
-      <button type="button"
-              id="new"
-              title="creates a new file"
-              data-title="<%= t('views.buttons.new_file') %>"
-              class="tipped">
-        <%= t('views.buttons.new_file') %>
-      </button>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <button type="button"
-              id="rename"
-              title="renames the current file"
-              data-title="<%= t('views.buttons.rename_file') %>"
-              class="tipped">
-        <%= t('views.buttons.rename_file') %>
-      </button>
-    </td>
-  </tr>
-  <tr>
-    <td>
-      <button type="button"
-              id="delete"
-              title="deletes the current file"
-              data-title="<%= t('views.buttons.delete_file') %>"
-              class="tipped">
-        <%= t('views.buttons.delete_file') %>
-      </button>
-    </td>
-  </tr>
-</table>
+<div id="file-operations">
+  <button type="button"
+          id="new"
+          data-title="<%= t('views.buttons.new_file') %>"
+          title="creates a new file">
+    <%= t('views.buttons.new_file') %>
+  </button>
+  <button type="button"
+          id="rename"
+          data-title="<%= t('views.buttons.rename_file') %>"
+          title="renames the current file">
+    <%= t('views.buttons.rename_file') %>
+  </button>
+  <button type="button"
+          id="delete"
+          data-title="<%= t('views.buttons.delete_file') %>"
+          title="deletes the current file">
+    <%= t('views.buttons.delete_file') %>
+  </button>
+</div>

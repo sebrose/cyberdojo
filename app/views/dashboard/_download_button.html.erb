@@ -1,24 +1,21 @@
 
 <script type="text/javascript"><!--
 
-$(document).ready(function() {
+$(function() {
 
-  $('#download_button').click(function() {
-    var id = "<%= @kata.id %>";
-    window.location = '/downloader/download/' + id;
+  $('#download-button').click(function() {
+    var url = '/downloader/download/' + "<%=@id%>";
+    window.location = url;
   });
 
 });
 
 //--></script>
 
-<button type="button"
-        class="tipped"
-        id="download_button">
-  <%= t("views.buttons.download") %>
-  <div class="tooltip">
-     download a zip<br>
-     of all animals<br>
-     git repos
-  </div>
-</button>
+<div id="download-button-container">
+  <button type="button"
+          title="download as .tar.gz file"
+          id="download-button">
+    download
+  </button>
+</div>

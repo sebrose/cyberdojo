@@ -1,32 +1,25 @@
 source 'https://rubygems.org'
 
-gem 'rails',        '3.2.3'
+gem 'rails',        '4.0.3'
 gem 'jquery-rails', '2.1.3'
-
 gem 'sqlite3',      '1.3.7'
-
-# Gems used only for assets and not required
-# in production environments by default.
-group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
-  gem 'coffee-rails', '~> 3.2.1'
-  gem 'uglifier',     '>= 1.0.3'
-end
-
+gem 'sass-rails', "~> 4.0.3"
+gem 'coffee-rails'
+gem 'uglifier'
 gem 'thin'
 gem 'therubyracer'
-gem 'simplecov',    '>= 0.7.1', :require => false, :group => :test
 
 group :test do
   gem 'rspec'
   gem 'shoulda-matchers'
-  gem 'capybara'
-  gem 'selenium-webdriver', '~> 2.38.0'
+  gem 'capybara', '= 2.4.4'
+  gem 'selenium-webdriver', '= 2.43.0'
   gem 'faker'
   gem 'autotest-standalone'
   gem 'autotest-growl'
   gem 'approvals', '>= 0.0.7'
   gem 'cucumber'
+  gem 'simplecov', '>= 0.7.1'
 end
 
 # rspec-rails needs to be in the development group so that Rails generators work.

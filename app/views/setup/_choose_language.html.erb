@@ -1,12 +1,9 @@
 
 <script type="text/javascript"><!--
 
-$(document).ready(function() {
+$(function() {
 
   var previousLanguage = undefined;
-  var container = $('#div-languages');
-  var downFromTop = 100;
-  var halfSecond = 500;
   var selected = $('#language_' + <%= @selected_language_index %>);
 
   $('[id^=language_]').each(function(index) {
@@ -18,21 +15,17 @@ $(document).ready(function() {
   });
 
   selected.click();
-  // ensure visible
-  container.animate({
-    scrollTop: selected.offset().top - container.offset().top - downFromTop
-  }, halfSecond);
-
+  selected.scrollIntoView({ direction: 'vertical' });
 });
 
 //--></script>
 
-<div id="div-languages">
+<div id="languages-container">
   <% @languages.each_with_index do |atts,index| %>
     <div class="filename"
          id="language_<%= index %>"
-         data-language="<%= atts[2] %>">
-      <%= atts[0] %>, <%= atts[1] %>
+         data-language="<%= atts[0] %>">
+      <%= atts[1] %>
     </div>
   <% end %>
 </div>

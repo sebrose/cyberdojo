@@ -1,0 +1,76 @@
+
+<script type="text/javascript"><!--
+
+$(function() {
+
+  cd.dialog_progress = function(id,title) {
+
+	  $.getJSON('/dashboard/progress', { id: id }, function(data) {
+
+        var progressDiv = $('<div id="progress-dialog">');
+
+        var html = '<table>';
+        var index = 0;
+        $.each(data.animals, function(name,animal) {
+          var parity = (index % 2 === 0) ? 'even' : 'odd';
+          index += 1;
+          html += '' +
+            "<tr class='" + parity + " animal'>" +
+              "<td class='progress'>" +
+                "<img src='/images/traffic_light_" + animal.colour + ".png'" +
+                    " alt='" + animal.colour + " traffic-light'" +
+                    " width='10'" +
+                    " height='30'/>" +
+              "</td>" +
+              "<td>" +
+                "<img src='/images/avatars/" + name + ".jpg'" +
+                  " width='30'" +
+                  " height='30'" +
+                  " class='avatar-image'/>" +
+              "</td>" +
+              "<td class='" + animal.colour + " progress'>" +
+                animal.progress.text +
+              "</td>" +
+            "</tr>";
+        });
+        html += '</table>';
+
+        var progressDialog = progressDiv
+          .html(html)
+          .dialog({
+            html: html,
+            autoOpen: false,
+            title: cd.dialogTitle(title),
+            height: 'auto',
+			width: 'auto',
+            modal: true,
+            buttons: {
+              close: function() {
+                progressDialog.remove();
+              }
+            },
+          });
+
+        progressDialog.dialog('open');
+      });
+  };
+
+  $('#progress-button').click(function() {
+    var title = $(this).data('title');
+    cd.dialog_progress('<%= @kata.id %>',title);
+  });
+
+});
+
+//--></script>
+
+<% if @kata.language.progress_regexs != [ ] %>
+<div id="progress-button-container">
+  <button type="button"
+          title="show progress"
+          data-title="progress"
+          id="progress-button">
+    progress
+  </button>
+</div>
+<% end %>

@@ -4,53 +4,15 @@ var cyberDojo = (function(cd, $) {
   "use strict";
 
   cd.loadFile = function(filename) {
-    // I want to
-    //    1. restore scrollTop and scrollLeft positions
-    //    2. restore focus (also restores cursor position)
-    // Restoring the focus loses the scrollTop/Left
-    // positions so I have to save them in the dom so
-    // I can set them back _after_ the call to focus()
-    // The call to focus() allows you to carry on
-    // typing at the point the cursor left off.
-
-    cd.saveScrollPosition(cd.currentFilename());
     cd.fileDiv(cd.currentFilename()).hide();
     cd.selectFileInFileList(filename);
     cd.fileDiv(filename).show();
 
     cd.fileContentFor(filename).focus();
-    cd.restoreScrollPosition(filename);
     $('#current-filename').val(filename);
     if (filename !== 'output') {
       $('#last-non-output-filename').val(filename);
     }
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.saveScrollPosition = function(filename) {
-    var fc = cd.fileContentFor(filename);
-    var top = fc.scrollTop();
-    var left = fc.scrollLeft();
-    var div = cd.fileDiv(filename);
-    div.attr('scrollTop', top);
-    div.attr('scrollLeft', left);
-  };
-
-  //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
-  cd.restoreScrollPosition = function(filename) {
-    // Restore the saved scrollTop/Left positions.
-    // Note that doing the seemingly equivalent
-    //   fc.scrollTop(top);
-    //   fc.scrollLeft(left);
-    // here does _not_ work. I use animate instead with a
-    // very fast duration==1
-    var div = cd.fileDiv(filename);
-    var top = div.attr('scrollTop') || 0;
-    var left = div.attr('scrollLeft') || 0;
-    var fc = cd.fileContentFor(filename);
-    fc.animate({scrollTop: top, scrollLeft: left}, 1);
   };
 
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -61,20 +23,21 @@ var cyberDojo = (function(cd, $) {
     var renameFile = fileOps.find('#rename');
     var deleteFile = fileOps.find('#delete');
 
-    var turnOff = function(node) {
-      node.attr('disabled', true);
+    var disable = function(node) {
+      node.prop('disabled', true);
     };
-    var turnOn = function(node) {
-      node.removeAttr('disabled');
+
+    var enable = function(node) {
+      node.prop('disabled', false);
     };
 
     if (cd.cantBeRenamedOrDeleted(filename)) {
-      turnOff(renameFile);
-      turnOff(deleteFile);
+      disable(renameFile);
+      disable(deleteFile);
     }
     else {
-      turnOn(renameFile);
-      turnOn(deleteFile);
+      enable(renameFile);
+      enable(deleteFile);
     }
   };
 
@@ -101,7 +64,7 @@ var cyberDojo = (function(cd, $) {
   //- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
   cd.radioEntrySwitch = function(previous, current) {
-    // Used in test-page, setup-page, and diff,fork,revert dialogs
+    // Used in test-page, setup-page, and diff-dialog
     if (previous !== undefined) {
       previous.removeClass('selected');
     }

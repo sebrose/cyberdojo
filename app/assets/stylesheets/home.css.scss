@@ -4,10 +4,9 @@ $text-color: darken($lighter-color, 10%);
 #home-page {
 
   font-size: 1.15em;
-  margin: {
-    top: 10px;
-    left: 20px;
-  }
+
+  margin-top: 25px;
+  margin-left: 0px;
 
   #cyber-dojo {
     font-family: Impact, Trebuchet MS, Tahoma, Verdana, Arial, sans-serif;
@@ -16,67 +15,48 @@ $text-color: darken($lighter-color, 10%);
     margin-bottom: 0px;
     padding-bottom: 0px;
     position: relative;
+    left: 3px;
+    top: -20px;
   }
 
   #home-page-logo {
     display: inline-block;
     position: relative;
     top: -50px;
-    right: -38px;
+    right: -35px;
   }
 
-  #a_place_to_practice, #programming {
-    font-size: 1.55em;
+  #the-place-to-practice-programming {
+    font-size: 1.35em;
     color: lighten($text-color, 5%);
-    margin: {
-      top: -15px;
-      bottom: 0px;
-    }
-  }
-  #programming {
-    font-size: 1.55em;
-    color: lighten($text-color, 5%);
-    margin: {
-      top: 0px;
-      bottom: 15px;
-    }
-  }
-  td#column-main {
-    padding: {
-      left: 0px;
-      right: 30px;
-    }
-    margin: {
-      left: 0px;
-      top: -20px;
-    }
-  }
-  td#column-buttons, td#column-donate {
-    padding: 12px;
-    padding-top: 20px;
-    background-color: lighten($darker-color, 10%);
-    border: dotted 1px DarkGray;
-    width: 145px;
     position: relative;
-    top: 42px;
-    @include rounded-corner(6px);
-  }
-  td#column-gap {
-    width: 30px;
-  }
-  .show-dialog-button {
-    display: block;
-    margin: 0 auto 12px auto;
-    border: solid 1px Gray;
-    width: 115px;
-    font-size: 12pt;
-    color: lighten($darker-color, 6%);
+    top: -29px;
   }
 
-  #create-button-info, #enter-id-info, #enter-info, #reenter-info, #review-info {
-    font-size: 0.9em;
-    width: 360px;
+  #second-server, #third-server {
+    font-size: 1.10em;
   }
+
+  #learn-more-button {
+    font-size: 1.30em;
+    position: relative;
+    top: -25px;
+    left: 2px;
+  }
+
+  .button-td {
+    width: 230px;
+    vertical-align: top;
+  }
+  .button-info-td {
+    display: inline-block;
+    font-size: 0.9em;
+    width: 160px;
+    &.enter {
+      color: lighten($green, 30%);
+    }
+  }
+
   #enter-id-info {
     color: lighten($green, 30%);
   }
@@ -85,12 +65,9 @@ $text-color: darken($lighter-color, 10%);
     background: lighten($green, 20%);
     color: $darker-color;
     @include font-size-largest();
-    width: 196px;
-    margin: {
-      bottom: 2px;
-      right: 2px;
-    }
-    padding-right: 20px;
+    width: 215px;
+    margin: { top: 4px; bottom: 4px; right: 2px; }
+    padding: { right: 20px; bottom: 0px; top: 2px; }
     text-align: right;
     @include gradient-lighten($green, 40%, 30%, 20%);
     @include rounded-corner(6px);
@@ -101,128 +78,69 @@ $text-color: darken($lighter-color, 10%);
     font-family: Impact, Trebuchet MS, Tahoma, Verdana, Arial, sans-serif;
     color: $darker-color;
     @include font-size-largest();
-    width: 220px;
+    width: 240px;
+    padding-right: 20px;
     margin-left: 10px;
     text-align: right;
   }
   #create-button {
-    margin-bottom: 30px;
   }
   #review-button {
-    margin-bottom: 40px;
-  }
-  #please_donate {
-    text-align: right;
-    margin: {
-      left: 16px;
-      right: 24px;
-    }
-    color: $lighter-color;
-    @include font-size-tiny();
-  }
-  #donate-form {
-    height: 42px;
-  }
-  #donate-button {
-    text-align: right;
-    padding: {
-      top: 15px;
-      right: 18px;
-    }
-    margin-right: 24px;
-  }
-  #total-raised {
-    color: $lighter-color;
-    @include font-size-tiny();
-    padding: {
-      top: 0px;
-      bottom: 10px;
-      right: 24px;
-    }
-    text-align: right;
-  }
-  #raspberry-pi-logo {
-    padding: {
-      bottom: 0px;
-      right: 24px;
-    }
-    text-align: right;
+    margin-top: 4px;
   }
 
-
-  .buttons-container {
-    margin-bottom: 20px;
-  }
-  #accu-image {
-    padding-right: 24px;
-    margin-bottom: 0px;
-    text-align: right;
-  }
-  #accu-words {
-    @include font-size-tiny();
-    margin: {
-      top: 10px;
-      right: 24px;
+  #donate-container {
+    font-size: 1.15em;
+    width: 280px;
+    @include ghost-panel(10px);
+    margin-bottom: 10px;
+    #please-donate {
+      text-align: right;
+      margin: { left: 10px; right: 10px; }
+      color: $lighter-color;
+      @include font-size-tiny();
     }
-    color: $lighter-color;
-    text-align: right;
-  }
-  #testimonial {
-    @include font-size-tiny();
-    text-align: right;
-    color: $lighter-color;
-    margin: {
-      left: 22px;
-      right: 22px;
+    #donate-form {
+      height: 42px;
     }
-    #title {
-      @include font-size-small();
-      font-weight: bold;
-      color: darken($lighter-color, 10%);
-      margin-bottom: 10px;
+    #donate-button {
+      text-align: right;
+      padding: { top: 15px; right: 5px; }
+    }
+    #please-invoice-me {
+      display: block;
+      @include font-size-tiny();
+      text-align: right;
+      margin-right: 10px;
     }
   }
-  hr {
-    display: block;
-    height: 1px;
-    border: 0;
-    border-top: 1px dotted lighten($darker-color, 30%);
-    margin: {
-      top: 15px;
-      bottom: 15px;
-      left: 18px;
-      right: 18px;
+
+  #accu-container {
+    font-size: 0.85em;
+    width: 258px;
+    @include ghost-panel(10px);
+    margin-bottom: 10px;
+    #accu-image {
+      margin: { top: 10px; right: 10px; }
+      padding: 5px;
+      background:CornSilk;
+      width: 60px;
+      height: 15px;
     }
-    padding: 0;
+    #accu-words {
+      margin: { top: 10px; right: 10px; }
+      color: $lighter-color;
+      text-align: right;
+    }
   }
-}
 
-.faqs.dialog, .get-started.dialog, .tips.dialog,
-.about.dialog, .donators.dialog, .give-feedback.dialog, .why.dialog {
-  font-size: 12pt;
-}
-
-#faqs, #get-started, #tips,
-#about, #donators, #give-feedback, #why {
-  font-family: Impact, Trebuchet MS, Tahoma, Verdana, Arial, sans-serif;
-  @include font-size-small();
-  padding: {
-    left: 0.3em;
-    right: 0.5em;
+  #tweet-container {
+    @include ghost-panel(20px);
+    #twitter-widget-0 {
+      position: relative;
+      right: -47px;
+    }
   }
-  text-align: right;
-}
-
-
-
-.kata-id-input {
-    font-family: Impact, Trebuchet MS, Tahoma, Verdana, Arial, sans-serif;
-    background: lighten($green, 20%);
-    color: $darker-color;
-    text-align: center;
-    width: 270px;
-    margin-left: 0px;
-    @include gradient-lighten($green, 40%, 30%, 20%);
 }
 
 a:link, a:visited
@@ -235,10 +153,6 @@ a:link, a:visited
   color: $text-color;
   @include font-size-small();
 }
-
-
-
-
 
 #get_a_new_practice_id
 {

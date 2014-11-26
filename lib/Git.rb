@@ -8,6 +8,10 @@ class Git
     run(dir, 'init', args)
   end
 
+  def config(dir, args)
+    run(dir, 'config', args)
+  end
+
   def add(dir, args)
     run(dir, 'add', quoted(args))
   end
@@ -17,9 +21,11 @@ class Git
   end
 
   def commit(dir, args)
-    c1 = run(dir, 'commit', args)
-    c2 = run(dir, 'gc', '--aggressive --quiet')
-    c1 + c2
+    run(dir, 'commit', args)
+  end
+
+  def gc(dir, args)
+    run(dir, 'gc', args)
   end
 
   def tag(dir, args)
@@ -41,7 +47,37 @@ private
   end
 
   def run(dir, command, args)
-    `cd #{dir}; git #{command} #{args}`
+    log = [ ]
+    cd_cmd = "cd #{dir}"
+    git_cmd = "git #{command} #{args}"
+    cmd = [cd_cmd,git_cmd].map{|s| stderr2stdout(s)}.join(shell_separator)
+    IO.popen(cmd).each do |line|
+      log << line
+    end.close
+    log = log.join('')
+    status = $?.exitstatus
+    if status != success
+      debug "cmd=#{cmd}"
+      debug "$?.exitstatus=#{status}"
+      debug "output=#{log}"
+    end
+    log
+  end
+
+  def stderr2stdout(cmd)
+    cmd + ' ' + '2>&1'
+  end
+
+  def shell_separator
+    ';'
+  end
+
+  def success
+    0
+  end
+
+  def debug(message)
+    Rails.logger.debug message
   end
 
 end

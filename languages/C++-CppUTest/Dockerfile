@@ -6,13 +6,14 @@ RUN echo "deb http://archive.ubuntu.com/ubuntu saucy main universe" > /etc/apt/s
 RUN apt-get update
 RUN apt-get upgrade -y
 
+RUN apt-get install -y automake
+
 RUN mkdir /cpputest
 RUN cd /
-RUN git clone https://github.com/cpputest/cpputest.git
-RUN cd cpputest && git checkout tags/v3.5
+RUN git clone https://github.com/cpputest/cpputest.git # comment to avoid cache
+RUN cd cpputest && git checkout tags/v3.6
 RUN cd cpputest && ./configure
 RUN cd cpputest && make
 RUN cd cpputest && make check
 RUN chown -R www-data cpputest
 RUN chgrp -R www-data cpputest
-

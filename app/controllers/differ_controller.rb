@@ -1,38 +1,58 @@
-require 'GitDiff'
 
 class DifferController < ApplicationController
 
-  include GitDiff
-
   def diff
-    setup_parameters
-    @was_traffic_light = @traffic_lights[@was_tag - 1]
-    @now_traffic_light = @traffic_lights[@now_tag - 1]
-    visible_files = @avatar.visible_files(@now_tag)
-    diffed_files = git_diff_view(@avatar, @was_tag, @now_tag, visible_files)
-    @diffs = git_diff_prepare(diffed_files)
-    @ids_and_section_counts = prune(@diffs)
-    @current_filename_id = most_changed_lines_file_id(@diffs, params[:current_filename])
-
+    @lights = avatar.lights.map{|light| light.to_json }
+    diffs = git_diff_view(avatar.tags[was_tag].diff(now_tag))
 	render :json => {
-	  :wasTrafficLight => @was_traffic_light,
-	  :nowTrafficLight => @now_traffic_light,
-	  :diffs => @diffs,
-	  :idsAndSectionCounts => @ids_and_section_counts,
-	  :currentFilenameId => @current_filename_id
+	  :lights => @lights,
+	  :diffs => diffs,
+	  :prevAvatar => prevAvatar,
+	  :nextAvatar => nextAvatar,
+	  :idsAndSectionCounts => prune(diffs),
+	  :currentFilenameId => most_changed_file_id(diffs, current_filename),
+	  :wasTag => was_tag,
+	  :nowTag => now_tag
 	}
   end
 
 private
 
-  def setup_parameters
-    @kata = dojo.katas[id]
-    @avatar = @kata.avatars[params[:avatar]]
-    @traffic_lights = @avatar.traffic_lights
-    @min_tag = 0
-    @was_tag = params[:was_tag].to_i
-    @now_tag = params[:now_tag].to_i
-    @max_tag = @traffic_lights.length
+  include GitDiff
+
+  def was_tag
+    tag(:was_tag)
+  end
+
+  def now_tag
+    tag(:now_tag)
+  end
+
+  def tag(name)
+    raw = params[name].to_i
+    raw != -1 ? raw : @lights.length
+  end
+
+  def current_filename
+    params[:current_filename]
+  end
+
+  def active_avatar_names
+    avatars.active.map {|avatar| avatar.name}.sort
+  end
+
+  def prevAvatar
+    names = active_avatar_names
+    return '' if names.length == 1
+    names.unshift(names.last)
+    return names[names.rindex(avatar_name) - 1]
+  end
+
+  def nextAvatar
+    names = active_avatar_names
+    return '' if names.length == 1
+    names << names[0]
+    return names[names.index(avatar_name) + 1]
   end
 
   def prune(array)

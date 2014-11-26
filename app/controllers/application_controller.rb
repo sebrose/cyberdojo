@@ -1,70 +1,106 @@
-__DIR__ = File.dirname(__FILE__) + '/../../'
-require __DIR__ + '/config/environment.rb'
-require __DIR__ + '/app/lib/DockerRunner'
-require __DIR__ + '/app/lib/LinuxPaas'
-require __DIR__ + '/app/lib/RawRunner'
-require __DIR__ + '/lib/Folders'
-require __DIR__ + '/lib/Git'
-require __DIR__ + '/lib/OsDisk'
+
+def require_dependencies(file_names)
+  file_names.each{ |file_name| require_dependency file_name}
+end
+
+# these dependencies have to be loaded in the correct order
+# as some of them depend on loading previous ones
+
+require_dependencies %w{
+  Docker
+  TestRunner
+    DockerTestRunner
+    DummyTestRunner
+    HostTestRunner
+  Disk
+    OsDisk OsDir
+  Folders Git
+  TimeNow UniqueId
+}
+
+require_dependencies %w{
+  Approval Chooser Cleaner FileDeltaMaker
+  GitDiff GitDiffBuilder GitDiffParser LineSplitter
+  MakefileFilter OutputParser TdGapper
+}
+
+require_dependencies %w{
+  Dojo
+  Language Languages
+  Exercise Exercises
+  Avatar Avatars
+  Kata Katas
+  Light Sandbox Tag
+}
 
 class ApplicationController < ActionController::Base
-  before_filter :set_locale, :set_header_expires
 
   protect_from_forgery
 
-  include MakeTimeHelper
-
   def id
-    Folders::id_complete(root_path, params[:id]) || ""
-  end
-
-  def paas
-    # allow controller_tests to tunnel through rails stack
-    thread = Thread.current
-    @disk   ||= thread[:disk]   || OsDisk.new
-    @git    ||= thread[:git]    || Git.new
-    @runner ||= thread[:runner] || runner
-    @paas   ||= LinuxPaas.new(@disk, @git, @runner)
+    path = root_path
+    path += 'test/cyberdojo/' if ENV['CYBERDOJO_TEST_ROOT_DIR']
+    @id ||= Folders::id_complete(path + 'katas/', params[:id]) || ''
   end
 
   def dojo
-    paas.create_dojo(root_path, format)
+    externals = {
+      :runner => runner,
+      :disk   => disk,
+      :git    => git
+    }
+    @dojo ||= Dojo.new(root_path,externals)
   end
 
-  def bind(pathed_filename)
-    filename = Rails.root.to_s + pathed_filename
-    ERB.new(File.read(filename)).result(binding)
+  def katas
+    dojo.katas
   end
 
-  def set_locale
-    if params[:locale].present?
-      session[:locale] = params[:locale]
-    end
-    original_locale = I18n.locale
-    I18n.locale = params[:locale] || session[:locale] || I18n.default_locale
+  def kata
+    katas[id]
   end
 
-  def set_header_expires
-    response.headers['Expires'] = 1.year.from_now.httpdate
+  def avatars
+    kata.avatars
+  end
+
+  def avatar_name
+	params[:avatar]
+  end
+
+  def avatar
+    avatars[avatar_name]
+  end
+
+  def was_tag
+    params['was_tag']
+  end
+
+  def now_tag
+    params['now_tag']
   end
 
   def root_path
-    Rails.root.to_s + (ENV['CYBERDOJO_TEST_ROOT_DIR'] ? '/test/cyberdojo/' : '/')
+    Rails.root.to_s + '/'
   end
 
-private
-
-  def format
-    'json'
-  end
+protected
 
   def runner
-    docker? ? DockerRunner.new : RawRunner.new
+    @runner ||= Thread.current[:runner]
+    @runner ||= DockerTestRunner.new if Docker.installed?
+    @runner ||= HostTestRunner.new unless ENV['CYBERDOJO_USE_HOST'].nil?
+    @runner ||= DummyTestRunner.new
   end
 
-  def docker?
-    `docker info > /dev/null 2>&1`
-    $?.exitstatus === 0 && ENV['CYBERDOJO_USE_HOST'] === nil
+  def disk
+    @disk ||= Thread.current[:disk]
+    @disk ||= OsDisk.new
+  end
+
+  def git
+    @git ||= Thread.current[:git]
+    @git ||= Git.new
   end
 
 end

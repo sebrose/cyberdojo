@@ -18,7 +18,13 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    border-radius: 8px;
-    border: 2px solid $lighter-color;
-    background-color: $darker-color; 
+    border-radius: 25px;
+    background: lighten($darker-color, 15%);
+}
+
+::-webkit-scrollbar {
+  background: lighten($darker-color, 6%);
+  border: 1px solid lighten($darker-color, 6%);
+  border-left: 0px;
+  outline: none;
 }

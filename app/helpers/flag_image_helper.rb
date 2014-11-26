@@ -1,6 +1,6 @@
 
 module FlagImageHelper
-  
+
   def flag_image(name)
     image_tag "/images/countries/#{name}.png",
       :class => 'flag',
@@ -9,5 +9,5 @@ module FlagImageHelper
       :width => 50,
       :height => 30
   end
-  
+
 end

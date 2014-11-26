@@ -1,9 +1,9 @@
 
 {
   "visible_filenames": [
-    "Untitled.java",
-    "UntitledStepDef.java",
-    "Untitled.feature",
+    "Hiker.java",
+    "HikerStepDef.java",
+    "Hiker.feature",
     "RunCukesTest.java",
     "cyber-dojo.sh"
   ],
@@ -20,8 +20,7 @@
     "picocontainer-2.14.2.jar"
   ],
   "filename_extension" : ".java",
-  "display_name": "Java",
-  "display_test_name": "Cucumber",
-  "unit_test_framework": "junit",
+  "display_name": "Java, Cucumber",
+  "unit_test_framework": "java_cucumber",
   "image_name": "cyberdojo/java-1.8_cucumber"
 }

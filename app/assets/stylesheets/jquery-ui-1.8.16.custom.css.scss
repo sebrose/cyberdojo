@@ -417,8 +417,10 @@ button.ui-button::-moz-focus-inner { border: 0; padding: 0; } /* reset extra pad
 }
 
 .ui-dialog-titlebar-close,
-#ui-dialog-title-diff-dialog,
-#ui-dialog-title-revert-fork-dialog
 {
   display: none;
+}
+
+.ui-dialog.busy * {
+    cursor: wait !important;
 }

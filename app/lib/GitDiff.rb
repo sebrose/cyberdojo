@@ -1,20 +1,11 @@
-require 'GitDiffBuilder'
-require 'GitDiffParser'
-require 'LineSplitter'
 
 module GitDiff
 
-  # Top level functions used by diff_controller.rb to create data structure
-  # (to build view from) containing diffs for all files, for a given avatar,
-  # for a given tag.
+  # Top level functions used by diff_controller.rb to create
+  # data structure (to build view from) containing diffs
+  # for all files, for a given avatar, for a given tag.
 
-  def git_diff_view(avatar, was_tag, now_tag, visible_files = nil)
-      visible_files ||= avatar.visible_files(now_tag)
-      diff_lines = avatar.diff_lines(was_tag, now_tag)
-      unit_testable_git_diff_view(diff_lines, visible_files)
-  end
-
-  def unit_testable_git_diff_view(diff_lines, visible_files)
+  def git_diff(diff_lines, visible_files)
       view = { }
       diffs = GitDiffParser.new(diff_lines).parse_all
       diffs.each do |sandbox_name,diff|
@@ -34,41 +25,12 @@ module GitDiff
           visible_files.delete(filename)
         end
       end
-
       # other files have not changed...
       visible_files.each do |filename,content|
         view[filename] = sameify(content)
       end
-
       view
   end
-
-  #-----------------------------------------------------------
-
-  class IdFactory
-    def create_id
-      Id.new.to_s
-    end
-  end
-
-  def git_diff_prepare(diffed_files, id_factory = IdFactory.new)
-    diffs = [ ]
-    diffed_files.sort.each do |filename,diff|
-      id = 'id_' + id_factory.create_id
-      diffs << {
-        :id => id,
-        :filename => filename,
-        :section_count      => diff.count { |line| line[:type] == :section },
-        :deleted_line_count => diff.count { |line| line[:type] == :deleted },
-        :added_line_count   => diff.count { |line| line[:type] == :added   },
-        :content  => git_diff_html(id, diff),
-        :line_numbers => git_diff_html_line_numbers(diff)
-      }
-    end
-    diffs
-  end
-
-  #-----------------------------------------------------------
 
   def deleted_file?(ch)
     # GitDiffParser uses names beginning with
@@ -78,104 +40,13 @@ module GitDiff
     ch == 'a'
   end
 
-  #-----------------------------------------------------------
-
-  def most_changed_lines_file_id(diffs, current_filename)
-    # prefers to stay on the same file if it still exists
-    # in the now_tag (it could have been deleted or renamed)
-    # and has at least one red or green change.
-    chosen_diff = nil
-    current_filename_diff = diffs.find { |diff| diff[:filename] == current_filename }
-
-    files = diffs.select { |diff| diff[:filename] != 'output' && diff[:filename] != current_filename }
-    files = files.select { |diff| change_count(diff) > 0 }
-    most_changed_diff = files.max { |lhs,rhs| change_count(lhs) <=> change_count(rhs) }
-
-    if current_filename_diff != nil
-      if change_count(current_filename_diff) > 0 || most_changed_diff == nil
-        chosen_diff = current_filename_diff
-      else
-        chosen_diff = most_changed_diff
-      end
-    elsif most_changed_diff != nil
-      chosen_diff = most_changed_diff
-    else
-      diffs = diffs.select { |diff| diff[:filename] != 'output' && diff[:filename] != 'instructions' }
-      chosen_diff = diffs.max_by { |diff| diff[:content].size }
-    end
-
-    chosen_diff[:id]
-  end
-
-  #-----------------------------------------------------------
-
-  def change_count(diff)
-    diff[:deleted_line_count] + diff[:added_line_count]
-  end
-
-  #-----------------------------------------------------------
-
-  def git_diff_html(id, diff)
-    lines = diff.map {|n| diff_htmlify(id, n) }.join("")
-  end
-
-  def diff_htmlify(id, n)
-    result = ""
-    if n[:type] == :section
-      result = "<span id='#{id}_section_#{n[:index]}'></span>"
-    else
-      line = CGI.escapeHTML(n[:line])
-      line = "&thinsp;" if line == ""
-      result =
-        "<#{n[:type]}>" +
-          line +
-        "</#{n[:type]}>"
-    end
-    result
-  end
-
-  #-----------------------------------------------------------
-  # Originally I left-padded each line-number.
-  # Now I don't and the CSS right-aligns the line-numbers.
-  # There is a downside to this approach however.
-  # If I have two files in the diff-view and one has less
-  # than 10 lines and the other has more than 10 lines then
-  # the first one's line-numbers will be 2 chars wide and the
-  # seconds one's line-numbers will be 3 chars wide. This
-  # will make the left edge of a file's content move
-  # horizontally when you switch between these two files.
-  # In practice I've decided this is not worth worrying about
-  # since the overwhelming feeling you get when switching files
-  # is the change of content anyway.
-
-  def git_diff_html_line_numbers(diff)
-    line_numbers = diff.map {|n| diff_htmlify_line_numbers(n) }.join("")
-  end
-
-  def diff_htmlify_line_numbers(n)
-    result = ""
-    if n[:type] != :section
-      result =
-        "<#{n[:type]}>" +
-          '<ln>' + n[:number].to_s + '</ln>' +
-        "</#{n[:type]}>"
-    end
-    result
-  end
-
-  #-----------------------------------------------------------
-
   def sameify(source)
     ify(LineSplitter.line_split(source), :same)
   end
 
-  #-----------------------------------------------------------
-
   def deleteify(lines)
     ify(lines, :deleted)
   end
-
-  #-----------------------------------------------------------
 
   def ify(lines, type)
     lines.collect.each_with_index do |line, number|
@@ -185,6 +56,107 @@ module GitDiff
         :number => number + 1
       }
     end
+  end
+
+  def most_changed_file_id(diffs, current_filename)
+    # Prefers to stay on the same file if it still exists
+    # in the now_tag (it could have been deleted or renamed)
+    # and has at least one change.
+    # Otherwise prefers the file with the most changes.
+    # If nothing has changed prefers the largest file
+    # that isn't output or instructions (this is likely to
+    # be a test file).
+
+    chosen_diff = nil
+    current_filename_diff = diffs.find { |diff| diff[:filename] == current_filename }
+
+    files = diffs.select { |diff| diff[:filename] != 'output' && diff[:filename] != current_filename }
+    files = files.select { |diff| change_count(diff) > 0 }
+    most_changed_diff = files.max { |lhs,rhs| change_count(lhs) <=> change_count(rhs) }
+
+    if !current_filename_diff.nil?
+      if change_count(current_filename_diff) > 0 || most_changed_diff.nil?
+        chosen_diff = current_filename_diff
+      else
+        chosen_diff = most_changed_diff
+      end
+    elsif !most_changed_diff.nil?
+      chosen_diff = most_changed_diff
+    else
+      diffs = diffs.select { |diff| diff[:filename] != 'output' && diff[:filename] != 'instructions' }
+      chosen_diff = diffs.max_by { |diff| diff[:content].size }
+    end
+
+    chosen_diff[:id]
+  end
+
+  def change_count(diff)
+    diff[:deleted_line_count] + diff[:added_line_count]
+  end
+
+  def git_diff_view(diffed_files)
+    n = 0
+    diffs = [ ]
+    diffed_files.sort.each do |filename,diff|
+      id = 'id_' + n.to_s
+      n += 1
+      diffs << {
+        :id => id,
+        :filename => filename,
+        :section_count      => diff.count { |line| line[:type] == :section },
+        :deleted_line_count => diff.count { |line| line[:type] == :deleted },
+        :added_line_count   => diff.count { |line| line[:type] == :added   },
+        :content  => git_diff_html_file(id, diff),
+        :line_numbers => git_diff_html_line_numbers(diff)
+      }
+    end
+    diffs
+  end
+
+  def git_diff_html_file(id, diff)
+    lines = diff.map {|n| diff_htmlify(id, n) }.join('')
+  end
+
+  def diff_htmlify(id, n)
+    result = ''
+    if n[:type] == :section
+      result = "<span id='#{id}_section_#{n[:index]}'></span>"
+    else
+      line = CGI.escapeHTML(n[:line])
+      line = '&thinsp;' if line == ''
+      result =
+        "<#{n[:type]}>" +
+          line +
+        "</#{n[:type]}>"
+    end
+    result
+  end
+
+  def git_diff_html_line_numbers(diff)
+    # Originally I left-padded each line-number.
+    # Now I don't and the CSS right-aligns the line-numbers.
+    # There is a downside to this approach however.
+    # If I have two files in the diff-view and one has less
+    # than 10 lines and the other has more than 10 lines then
+    # the first one's line-numbers will be 2 chars wide and the
+    # seconds one's line-numbers will be 3 chars wide. This
+    # will make the left edge of a file's content move
+    # horizontally when you switch between these two files.
+    # In practice I've decided this is not worth worrying about
+    # since the overwhelming feeling you get when switching files
+    # is the change of content anyway.
+    line_numbers = diff.map {|n| diff_htmlify_line_numbers(n) }.join('')
+  end
+
+  def diff_htmlify_line_numbers(n)
+    result = ''
+    if n[:type] != :section
+      result =
+        "<#{n[:type]}>" +
+          '<ln>' + n[:number].to_s + '</ln>' +
+        "</#{n[:type]}>"
+    end
+    result
   end
 
 end

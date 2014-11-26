@@ -1,8 +1,8 @@
 
 {
   "visible_filenames": [
-    "Untitled.groovy",
-    "UntitledSpec.groovy",
+    "HikerSpec.groovy",
+    "Hiker.groovy",
     "cyber-dojo.sh"
   ],
   "support_filenames": [
@@ -12,8 +12,7 @@
     "spock-core-0.7-groovy-2.0.jar"
   ],
   "filename_extension" : ".groovy",
-  "display_name": "Groovy",
-  "display_test_name": "Spock",
+  "display_name": "Groovy, Spock",
   "image_name": "cyberdojo/groovy-2.2.0_spock",
   "unit_test_framework": "groovy_spock"
 }

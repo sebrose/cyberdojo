@@ -1,22 +1,15 @@
 
-$ellipsis: "\2026";
-
 #dashboard-page {
 
-  margin: {
-    top: 2em;
-    left: 1em;
+  margin: 25px;
+
+  #age-container, #controls-container, #team-bulb-counts-container {
+    @include ghost-panel(5px);
+    @include right-align(15px);
   }
 
-  #shared-info {
-    font-size: 1em;
-  }
-
-  #age-container, #team-bulb-counts-container,
-  #help-button-container, #controls-container {
-    margin-left: auto;  // right-align
-    margin-right: 3px;  // right-align
-    text-align: right;
+  #team-bulb-counts-container .traffic-light-count {
+    font-size: 1.5em;
   }
 
   #age-container {
@@ -26,39 +19,53 @@ $ellipsis: "\2026";
     }
   }
 
-  #help-button {
-    @include font-size-tiny();
-    @include rounded-corner(14px);
+  #progress-button-container, #download-button-container {
+    @include right-align(12px);
+    text-align: right;
+    #progress-button, #download-button {
+      font-size: 1em;
+      padding-bottom: 4px;
+      margin-bottom: 17px;
+    }
   }
 
   #traffic-lights {
-    width: 65em;
-    overflow-x: auto;
-    height: 46em;
+    width: 950px;
+    overflow-x: scroll;
     overflow-y: auto;
-
-    img {
-      padding: {
-        left: 1px;
-        right: 1px;
-      }
-    }
+    img { padding: 1px; }
+    .avatar-image { padding-right: 10px; }
     .row      td { padding: 0em; }
     .row.odd  td { background: lighten($darker-color, 3%); }
     .row.even td { background: lighten($darker-color, 6%); }
     .omission {
-      font-size: 2em;
-      background-color: darken(White, 40%);
-      &:after { content: "\2009"; } //thin space
-      margin: {
-        left: 5px;
-        right: 5px;
-      }
+      font-size: 2.9em;
+      background-color: darken(white, 50%);
+      &:after { content: $thin-space; }
+      margin: 5px;
     }
     .gap {
       font-size: 0.5em;
-      color: lighten(Black,40%);
+      color: lighten(black,40%);
       text-align: center;
     }
+    .traffic-light-count {
+      cursor: pointer;
+    }
+  }
+
+  .diff-traffic-light {
+    margin-top: 4px;
+  }
+
+}
+
+#progress-dialog {
+  padding-top: 0px;
+  .odd.animal  { background: lighten($darker-color, 3%); }
+  .even.animal { background: lighten($darker-color, 6%); }
+  .progress {
+    white-space: nowrap;
+    padding: { left: 5px; right: 5px; }
   }
 }

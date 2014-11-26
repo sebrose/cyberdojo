@@ -1,13 +1,12 @@
 
 {
   "visible_filenames": [
-    "Untitled.php",
-    "UntitledTest.php",
+    "HikerTest.php",
+    "Hiker.php",
     "cyber-dojo.sh"
   ],
   "filename_extension" : ".php",
-  "display_name": "PHP",
-  "display_test_name": "PHPUnit",
+  "display_name": "PHP, PHPUnit",
   "unit_test_framework": "php_unit",
   "image_name": "cyberdojo/php-5.5.3_phpunit",
   "tab_size": 4
